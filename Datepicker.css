@@ -65,8 +65,7 @@
     padding-bottom: 12px;
   }
   
-  .startTimeElement
-  {
+  .startTimeElement, .endTimeElement {
 	  display: grid;
 	  grid-template-columns: auto auto auto auto;
 	  grid-gap: 10px;
@@ -75,50 +74,40 @@
 	  align-items: center;
 	  font-size: 1.54em !important;
   }  
-  .hour, .timeColon, .minute, .ampm, .am, .pm
-  {
+  .hour, .timeColon, .minute, .ampm, .am, .pm {
 	  
   }
   
-  .hour span, .minute span
-  {
+  .hour span, .minute span {
 	  display: inline-block;
 	  float: left;
   }
-  .UpDown
-  {
-	  margin-left: 4px;
+  .TimeUpDown {
+	  margin-left: 5px;
   }
   
-  .ampm
-  {
+  .ampm {
 	  border: 1px solid #000;
 	  padding: 4px;
   }
-  .am
-  {
+  .am {
 	  border-bottom: 1px solid #000;
   }
   
   /*
-  .hour
-  {
+  .hour {
 	  background-color: red;
   }
-  .minute 
-  {
+  .minute {
 	  background-color: blue;
   }
-  .ampm
-  {
+  .ampm {
 	  background-color: green;
   }
-  .am
-  {
+  .am {
 	  background-color: olive;
   }
-  .pm
-  {
+  .pm {
 	  background-color: purple;
   }
   */
