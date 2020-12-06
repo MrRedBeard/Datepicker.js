@@ -118,6 +118,75 @@ class clsDatepicker {
             startDateElement.classList.add('startDateElement')
             calendar.appendChild(startDateElement);
         }
+		
+		//!this.singleDate
+		if(this.timePicker)
+		{
+			let startTimeElement = document.createElement('div');
+			startTimeElement.classList.add("startTimeElement");
+			startTimeElement.style.gridColumnStart = 1;
+			startTimeElement.style.gridColumnEnd = 4;
+			
+			let startHour = document.createElement("div"); 
+			startHour.classList.add("hour");
+			startHour.innerHTML = "<span>12</span>";
+			startHour.style.gridColumn = "1 / span 2"; //2
+			
+			let startHourUpDown = document.createElement("span"); 
+			startHourUpDown.classList.add("UpDown");
+			startHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
+			startHour.appendChild(startHourUpDown);
+			
+			startTimeElement.appendChild(startHour);
+			/***************************************************/
+			
+			let timeColon = document.createElement("div"); 
+			timeColon.innerHTML = ":";
+			timeColon.classList.add("timeColon");
+			timeColon.style.gridColumn = "3 / span 1"; //3
+			startTimeElement.appendChild(timeColon);
+			/***************************************************/
+			
+			let startMinute = document.createElement("div"); 
+			startMinute.classList.add("minute");
+			startMinute.innerHTML = "<span>30</span>";
+			startMinute.style.gridColumn = "4 / span 2"; //6
+			
+			let startMinuteUpDown = document.createElement("span"); 
+			startMinuteUpDown.classList.add("UpDown");
+			startMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
+			startMinute.appendChild(startMinuteUpDown);
+			
+			startTimeElement.appendChild(startMinute);
+			/***************************************************/
+			
+			let startampm = document.createElement("div"); 
+			startampm.classList.add("ampm");
+			startampm.innerHTML = "";
+			startampm.style.gridColumn = "6 / span 1"; //7
+			
+			let startam = document.createElement("div"); 
+			startam.classList.add("am");
+			startam.innerHTML = "AM";
+			startampm.appendChild(startam);
+			let startpm = document.createElement("div"); 
+			startpm.classList.add("pm");
+			startpm.innerHTML = "PM";
+			startampm.appendChild(startpm);
+			startTimeElement.appendChild(startampm);
+			
+			
+			
+			let endTimeElement = document.createElement('div');
+			endTimeElement.classList.add("endTimeElement");
+			endTimeElement.style.gridColumnStart = 4;
+			endTimeElement.style.gridColumnEnd = 8;
+			endTimeElement.innerHTML = "00:00 PM";
+			
+			calendar.appendChild(startTimeElement);
+			calendar.appendChild(endTimeElement);
+		}
+		
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
     }
