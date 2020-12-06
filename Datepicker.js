@@ -128,12 +128,27 @@ class clsDatepicker {
 		    
 		    let startHour = document.createElement("div"); 
 		    startHour.classList.add("hour");
-		    startHour.innerHTML = "<span>12</span>";
+		    startHour.innerHTML = "<input type='number' value='12' />";
 		    startHour.style.gridColumn = "1 / span 2"; //2
+			
+			let startHourValueEl = startHour.querySelector("input");
+			startHourValueEl.onchange = function() {
+				
+			}.bind(this);
 		    
 		    let startHourUpDown = document.createElement("span"); 
 		    startHourUpDown.classList.add("TimeUpDown");
 		    startHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
+			
+			// Up
+			startHourUpDown.querySelectorAll("div")[0].onclick = function() {
+				startHourValueEl.value = parseInt(startHourValueEl.value) + 1;
+			}.bind(this);
+			// Down
+			startHourUpDown.querySelectorAll("div")[1].onclick = function() {
+				startHourValueEl.value = parseInt(startHourValueEl.value) - 1;
+			}.bind(this);
+			
 		    startHour.appendChild(startHourUpDown);
 		    
 		    startTimeElement.appendChild(startHour);
@@ -148,12 +163,27 @@ class clsDatepicker {
 		    
 		    let startMinute = document.createElement("div"); 
 		    startMinute.classList.add("minute");
-		    startMinute.innerHTML = "<span>30</span>";
+		    startMinute.innerHTML = "<input type='number' value='30' />";
 		    startMinute.style.gridColumn = "4 / span 2"; //6
+			
+			let startMinuteValueEl = startMinute.querySelector("input");
+			startMinuteValueEl.onchange = function() {
+				
+			}.bind(this);
 		    
 		    let startMinuteUpDown = document.createElement("span"); 
 		    startMinuteUpDown.classList.add("TimeUpDown");
 		    startMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
+			
+			// Up
+			startMinuteUpDown.querySelectorAll("div")[0].onclick = function() {
+				startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 1;
+			}.bind(this);
+			// Down
+			startMinuteUpDown.querySelectorAll("div")[1].onclick = function() {
+				startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 1;
+			}.bind(this);
+			
 		    startMinute.appendChild(startMinuteUpDown);
 		    
 		    startTimeElement.appendChild(startMinute);
@@ -167,10 +197,20 @@ class clsDatepicker {
 		    let startam = document.createElement("div"); 
 		    startam.classList.add("am");
 		    startam.innerHTML = "AM";
+			startam.setAttribute("SELECTED", "true");
+			startam.onclick = function () {
+				startam.setAttribute("SELECTED", "true");
+				startpm.removeAttribute("SELECTED");
+			}.bind(this);
 		    startampm.appendChild(startam);
+			
 		    let startpm = document.createElement("div"); 
 		    startpm.classList.add("pm");
 		    startpm.innerHTML = "PM";
+			startpm.onclick = function () {
+				startpm.setAttribute("SELECTED", "true");
+				startam.removeAttribute("SELECTED");
+			}.bind(this);
 		    startampm.appendChild(startpm);
 		    startTimeElement.appendChild(startampm);
 		    /***************************************************/
@@ -184,12 +224,27 @@ class clsDatepicker {
 		    
 		        let endHour = document.createElement("div"); 
 		        endHour.classList.add("hour");
-		        endHour.innerHTML = "<span>12</span>";
+		        endHour.innerHTML = "<input type='number' value='12' />";
 		        endHour.style.gridColumn = "1 / span 2"; //2
+				
+				let endHourValueEl = endHour.querySelector("input");
+				endHourValueEl.onchange = function() {
+				    
+				}.bind(this);
 		    
 		        let endHourUpDown = document.createElement("span"); 
 		        endHourUpDown.classList.add("TimeUpDown");
 		        endHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
+				
+				// Up
+				endHourUpDown.querySelectorAll("div")[0].onclick = function() {
+					endHourValueEl.value = parseInt(endHourValueEl.value) + 1;
+				}.bind(this);
+				// Down
+				endHourUpDown.querySelectorAll("div")[1].onclick = function() {
+					endHourValueEl.value = parseInt(endHourValueEl.value) - 1;
+				}.bind(this);
+				
 		        endHour.appendChild(endHourUpDown);
 		        
 		        endTimeElement.appendChild(endHour);
@@ -204,12 +259,27 @@ class clsDatepicker {
 		        
 		        let endMinute = document.createElement("div"); 
 		        endMinute.classList.add("minute");
-		        endMinute.innerHTML = "<span>30</span>";
+		        endMinute.innerHTML = "<input type='number' value='30' />";
 		        endMinute.style.gridColumn = "4 / span 2"; //6
+				
+				let endMinuteValueEl = endMinute.querySelector("input");
+				endMinuteValueEl.onchange = function() {
+				    
+				}.bind(this);
 		        
 		        let endMinuteUpDown = document.createElement("span"); 
 		        endMinuteUpDown.classList.add("TimeUpDown");
 		        endMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
+				
+				// Up
+				endMinuteUpDown.querySelectorAll("div")[0].onclick = function() {
+				    endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
+				}.bind(this);
+				// Down
+				endMinuteUpDown.querySelectorAll("div")[1].onclick = function() {
+				    endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
+				}.bind(this);
+				
 		        endMinute.appendChild(endMinuteUpDown);
 		        
 		        endTimeElement.appendChild(endMinute);
@@ -223,10 +293,20 @@ class clsDatepicker {
 		        let endam = document.createElement("div"); 
 		        endam.classList.add("am");
 		        endam.innerHTML = "AM";
+				endam.setAttribute("SELECTED", "true");
+				endam.onclick = function () {
+					endam.setAttribute("SELECTED", "true");
+					endpm.removeAttribute("SELECTED");
+				}.bind(this);
 		        endampm.appendChild(endam);
+				
 		        let endpm = document.createElement("div"); 
 		        endpm.classList.add("pm");
 		        endpm.innerHTML = "PM";
+				endpm.onclick = function () {
+					endpm.setAttribute("SELECTED", "true");
+					endam.removeAttribute("SELECTED");
+				}.bind(this);
 		        endampm.appendChild(endpm);
 		        endTimeElement.appendChild(endampm);
 		        /***************************************************/
