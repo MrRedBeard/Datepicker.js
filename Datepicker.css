@@ -99,7 +99,7 @@
 	  text-align: center;
 	  vertical-align: middle;
   }
-  .hour input:focus, .minute input:focus {
+  .hour input[type=number]:focus, .minute input[type=number]:focus {
 	  background: none;	  
 	  border:none;
       background-image:none;
@@ -107,6 +107,16 @@
       border: 1px solid #2b4c68;
 	  width: calc(2em - 4px);
 	  padding:0; margin: 0;
+  }
+  .hour .ReadOnly:focus, .minute .ReadOnly:focus {
+	  border: none !important;
+      outline: none !important;
+	  width: 2em !important;
+	  padding:0; margin: 0;
+	  -webkit-user-select: none;
+	  -moz-user-select: none;
+	  -ms-user-select: none;
+	  user-select: none;
   }
   /* Chrome, Safari, Edge, Opera */
   .hour input::-webkit-outer-spin-button, .hour input::-webkit-inner-spin-button, .minute input::-webkit-outer-spin-button, .minute input::-webkit-inner-spin-button {

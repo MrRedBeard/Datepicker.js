@@ -24,6 +24,8 @@ class clsDatepicker {
         this.lastMonth = this.lastMonth.bind(this);
         this.highlightDates = this.highlightDates.bind(this);
         this.dates = [];
+		this.timeElements = {};
+		this.times = [];
         this.drawCalendar();
         // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
@@ -121,6 +123,8 @@ class clsDatepicker {
 		
 		//!this.singleDate
 		if(this.timePicker) {
+			this.times.push("");this.times.push("");
+			
 		    let startTimeElement = document.createElement('div');
 		    startTimeElement.classList.add("startTimeElement");
 		    startTimeElement.style.gridColumnStart = 1;
@@ -132,9 +136,9 @@ class clsDatepicker {
 		    startHour.style.gridColumn = "1 / span 2"; //2
 			
 			let startHourValueEl = startHour.querySelector("input");
-			startHourValueEl.onchange = function() {
-				
-			}.bind(this);
+			startHourValueEl.setAttribute("ReadOnly", "true");
+			startHourValueEl.classList.add("ReadOnly");
+			this.timeElements.startHourValueEl = startHourValueEl;
 		    
 		    let startHourUpDown = document.createElement("span"); 
 		    startHourUpDown.classList.add("TimeUpDown");
@@ -142,11 +146,25 @@ class clsDatepicker {
 			
 			// Up
 			startHourUpDown.querySelectorAll("div")[0].onclick = function() {
-				startHourValueEl.value = parseInt(startHourValueEl.value) + 1;
+				let newVal = parseInt(startHourValueEl.value) + 1;
+				if(newVal > 12) {
+					newVal = 1;
+				}else if(newVal < 1) {
+					newVal = 12;
+				}
+				startHourValueEl.value = newVal;
+				this.setTime();
 			}.bind(this);
 			// Down
 			startHourUpDown.querySelectorAll("div")[1].onclick = function() {
-				startHourValueEl.value = parseInt(startHourValueEl.value) - 1;
+				let newVal = parseInt(startHourValueEl.value) - 1;
+				if(newVal > 12) {
+					newVal = 1;
+				}else if(newVal < 1) {
+					newVal = 12;
+				}
+				startHourValueEl.value = newVal;
+				this.setTime();
 			}.bind(this);
 			
 		    startHour.appendChild(startHourUpDown);
@@ -163,25 +181,45 @@ class clsDatepicker {
 		    
 		    let startMinute = document.createElement("div"); 
 		    startMinute.classList.add("minute");
-		    startMinute.innerHTML = "<input type='number' value='30' />";
+		    startMinute.innerHTML = "<input type='number' value='00' />";
 		    startMinute.style.gridColumn = "4 / span 2"; //6
 			
 			let startMinuteValueEl = startMinute.querySelector("input");
-			startMinuteValueEl.onchange = function() {
-				
-			}.bind(this);
+			startMinuteValueEl.setAttribute("ReadOnly", "true");
+			startMinuteValueEl.classList.add("ReadOnly");
+			this.timeElements.startMinuteValueEl = startMinuteValueEl;
 		    
 		    let startMinuteUpDown = document.createElement("span"); 
 		    startMinuteUpDown.classList.add("TimeUpDown");
 		    startMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
 			
 			// Up
-			startMinuteUpDown.querySelectorAll("div")[0].onclick = function() {
-				startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 1;
+			startMinuteUpDown.querySelectorAll("div")[0].onclick = function() {				
+				let newVal = parseInt(startMinuteValueEl.value) + 1;
+				if(newVal > 59) {
+					newVal = 0;
+				}else if(newVal < 0) {
+					newVal = 59;
+				}
+				startMinuteValueEl.value = newVal;
+				if(startMinuteValueEl.value.length < 2) {
+				    startMinuteValueEl.value = "0" + startMinuteValueEl.value;
+				}
+				this.setTime();
 			}.bind(this);
 			// Down
 			startMinuteUpDown.querySelectorAll("div")[1].onclick = function() {
-				startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 1;
+				let newVal = parseInt(startMinuteValueEl.value) - 1;
+				if(newVal > 59) {
+					newVal = 0;
+				}else if(newVal < 0) {
+					newVal = 59;
+				}
+				startMinuteValueEl.value = newVal;
+				if(startMinuteValueEl.value.length < 2) {
+				    startMinuteValueEl.value = "0" + startMinuteValueEl.value;
+				}
+				this.setTime();
 			}.bind(this);
 			
 		    startMinute.appendChild(startMinuteUpDown);
@@ -193,24 +231,28 @@ class clsDatepicker {
 		    startampm.classList.add("ampm");
 		    startampm.innerHTML = "";
 		    startampm.style.gridColumn = "6 / span 1"; //7
+			this.timeElements.startampm = startampm;
 		    
 		    let startam = document.createElement("div"); 
 		    startam.classList.add("am");
 		    startam.innerHTML = "AM";
-			startam.setAttribute("SELECTED", "true");
 			startam.onclick = function () {
 				startam.setAttribute("SELECTED", "true");
 				startpm.removeAttribute("SELECTED");
+				this.setTime();
 			}.bind(this);
 		    startampm.appendChild(startam);
 			
 		    let startpm = document.createElement("div"); 
 		    startpm.classList.add("pm");
 		    startpm.innerHTML = "PM";
+			startpm.setAttribute("SELECTED", "true");
 			startpm.onclick = function () {
 				startpm.setAttribute("SELECTED", "true");
 				startam.removeAttribute("SELECTED");
+				this.setTime();
 			}.bind(this);
+			
 		    startampm.appendChild(startpm);
 		    startTimeElement.appendChild(startampm);
 		    /***************************************************/
@@ -224,13 +266,13 @@ class clsDatepicker {
 		    
 		        let endHour = document.createElement("div"); 
 		        endHour.classList.add("hour");
-		        endHour.innerHTML = "<input type='number' value='12' />";
+		        endHour.innerHTML = "<input type='number' value='01' />";
 		        endHour.style.gridColumn = "1 / span 2"; //2
 				
 				let endHourValueEl = endHour.querySelector("input");
-				endHourValueEl.onchange = function() {
-				    
-				}.bind(this);
+				endHourValueEl.setAttribute("ReadOnly", "true");
+				endHourValueEl.classList.add("ReadOnly");
+				this.timeElements.endHourValueEl = endHourValueEl;
 		    
 		        let endHourUpDown = document.createElement("span"); 
 		        endHourUpDown.classList.add("TimeUpDown");
@@ -238,15 +280,28 @@ class clsDatepicker {
 				
 				// Up
 				endHourUpDown.querySelectorAll("div")[0].onclick = function() {
-					endHourValueEl.value = parseInt(endHourValueEl.value) + 1;
+					let newVal = parseInt(endHourValueEl.value) + 1;
+				    if(newVal > 12) {
+					    newVal = 1;
+				    }else if(newVal < 1) {
+					    newVal = 12;
+				    }
+				    endHourValueEl.value = newVal;
+					this.setTime();
 				}.bind(this);
 				// Down
 				endHourUpDown.querySelectorAll("div")[1].onclick = function() {
-					endHourValueEl.value = parseInt(endHourValueEl.value) - 1;
+					let newVal = parseInt(endHourValueEl.value) - 1;
+				    if(newVal > 12) {
+					    newVal = 1;
+				    }else if(newVal < 1) {
+					    newVal = 12;
+				    }
+				    endHourValueEl.value = newVal;
+					this.setTime();
 				}.bind(this);
 				
 		        endHour.appendChild(endHourUpDown);
-		        
 		        endTimeElement.appendChild(endHour);
 		        /***************************************************/
 		        
@@ -259,13 +314,13 @@ class clsDatepicker {
 		        
 		        let endMinute = document.createElement("div"); 
 		        endMinute.classList.add("minute");
-		        endMinute.innerHTML = "<input type='number' value='30' />";
+		        endMinute.innerHTML = "<input type='number' value='00' />";
 		        endMinute.style.gridColumn = "4 / span 2"; //6
 				
 				let endMinuteValueEl = endMinute.querySelector("input");
-				endMinuteValueEl.onchange = function() {
-				    
-				}.bind(this);
+				endMinuteValueEl.setAttribute("ReadOnly", "true");
+				endMinuteValueEl.classList.add("ReadOnly");
+				this.timeElements.endMinuteValueEl = endMinuteValueEl;
 		        
 		        let endMinuteUpDown = document.createElement("span"); 
 		        endMinuteUpDown.classList.add("TimeUpDown");
@@ -273,15 +328,33 @@ class clsDatepicker {
 				
 				// Up
 				endMinuteUpDown.querySelectorAll("div")[0].onclick = function() {
-				    endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
+					let newVal = parseInt(endMinuteValueEl.value) + 1;
+				    if(newVal > 59) {
+					    newVal = 0;
+				    }else if(newVal < 0) {
+					    newVal = 59;
+				    }
+				    endMinuteValueEl.value = newVal;
+				    if(endMinuteValueEl.value.length < 2) {
+				        endMinuteValueEl.value = "0" + endMinuteValueEl.value;
+				    }
+					this.setTime();
 				}.bind(this);
 				// Down
 				endMinuteUpDown.querySelectorAll("div")[1].onclick = function() {
-				    endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
+				    let newVal = parseInt(endMinuteValueEl.value) - 1;
+				    if(newVal > 59) {
+					    newVal = 0;
+				    }else if(newVal < 0) {
+					    newVal = 59;
+				    }
+				    endMinuteValueEl.value = newVal;
+				    if(endMinuteValueEl.value.length < 2) {
+				        endMinuteValueEl.value = "0" + endMinuteValueEl.value;
+				    }
+					this.setTime();
 				}.bind(this);
-				
-		        endMinute.appendChild(endMinuteUpDown);
-		        
+		        endMinute.appendChild(endMinuteUpDown);		        
 		        endTimeElement.appendChild(endMinute);
 		        /***************************************************/
 		        
@@ -289,34 +362,57 @@ class clsDatepicker {
 		        endampm.classList.add("ampm");
 		        endampm.innerHTML = "";
 		        endampm.style.gridColumn = "6 / span 1"; //7
+				this.timeElements.endampm = endampm;
 		        
 		        let endam = document.createElement("div"); 
 		        endam.classList.add("am");
 		        endam.innerHTML = "AM";
-				endam.setAttribute("SELECTED", "true");
 				endam.onclick = function () {
 					endam.setAttribute("SELECTED", "true");
 					endpm.removeAttribute("SELECTED");
+					this.setTime();
 				}.bind(this);
 		        endampm.appendChild(endam);
 				
 		        let endpm = document.createElement("div"); 
 		        endpm.classList.add("pm");
 		        endpm.innerHTML = "PM";
+				endpm.setAttribute("SELECTED", "true");
 				endpm.onclick = function () {
 					endpm.setAttribute("SELECTED", "true");
 					endam.removeAttribute("SELECTED");
+					this.setTime();
 				}.bind(this);
+				
 		        endampm.appendChild(endpm);
 		        endTimeElement.appendChild(endampm);
+				
 		        /***************************************************/
 				calendar.appendChild(endTimeElement);
 			}
+			this.setTime();
 		}
 		
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
     }
+	setTime() {
+		/*
+		Elements in timeElements object
+		this.timeElements.startHourValueEl
+		this.timeElements.startMinuteValueEl
+		this.timeElements.startampm
+		this.timeElements.endHourValueEl
+		this.timeElements.endMinuteValueEl
+		this.timeElements.endampm
+		*/
+		
+		this.times[0] = this.timeElements.startHourValueEl.value + ":" + this.timeElements.startMinuteValueEl.value + ":00 " + this.timeElements.startampm.querySelectorAll('[selected="true"]')[0].innerHTML;
+		if (!this.singleDate){
+			this.times[1] = this.timeElements.endHourValueEl.value + ":" + this.timeElements.endMinuteValueEl.value + ":00 " + this.timeElements.endampm.querySelectorAll('[selected="true"]')[0].innerHTML;
+		}
+		//console.log(this.times);
+	}
     // helper method to set start/end date on each calendar day click
     setDate(dayCell) {
         // set the start/end date in both the UI and the class's state
