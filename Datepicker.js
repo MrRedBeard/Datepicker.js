@@ -396,6 +396,7 @@ class clsDatepicker {
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
     }
+	// helper method to set start/end time
 	setTime() {
 		/*
 		Elements in timeElements object
